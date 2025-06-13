@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[Vich\Uploadable]
@@ -32,16 +33,6 @@ class Product
 
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
     #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'imageName', size: 'imageSize')]
-    #[Assert\Image(
-        maxSize: '2M',
-        maxWidth: 800,
-        maxHeight: 800,
-        mimeTypes: ['image/jpeg', 'image/png', 'image/gif'],
-        mimeTypesMessage: 'Please upload a valid image file (JPEG, PNG, or GIF)',
-        maxSizeMessage: 'Image file is too large ({{ size }} {{ suffix }}). Maximum allowed size is {{ limit }} {{ suffix }}.',
-        maxWidthMessage: 'Image width is too big ({{ width }}px). Maximum allowed width is {{ max_width }}px.',
-        maxHeightMessage: 'Image height is too big ({{ height }}px). Maximum allowed height is {{ max_height }}px.'
-    )]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
@@ -152,6 +143,8 @@ class Product
     {
         return $this->imageSize;
     }
+
+
 
     public function __toString(): string
     {
