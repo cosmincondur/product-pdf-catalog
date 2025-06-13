@@ -24,6 +24,12 @@ class ProductCrudController extends AbstractCrudController
             TextField::new('name'),
             AssociationField::new('category'),
             CollectionField::new('variants'),
+            ImageField::new('imageFile')
+                ->setFormTypeOptions([
+                    'allow_delete' => true,          // NEW: Enables delete functionality
+                    'delete_label' => 'Delete photo', // NEW: Custom delete label
+                ])
+                ->setLabel('Imagine produs')
         ];
     }
 
