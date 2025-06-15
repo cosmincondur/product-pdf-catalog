@@ -28,7 +28,11 @@ class Product
     /**
      * @var Collection<int, ProductVariant>
      */
-    #[ORM\OneToMany(targetEntity: ProductVariant::class, mappedBy: 'parent')]
+    #[ORM\OneToMany(
+        targetEntity: ProductVariant::class,
+        mappedBy: 'parent',
+        cascade: ['persist'],
+    )]
     private Collection $variants;
 
     // NOTE: This is not a mapped field of entity metadata, just a simple property.

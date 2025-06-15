@@ -6,8 +6,13 @@ use App\Repository\ProductVariantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ProductVariantRepository::class)]
+#[UniqueEntity(
+    fields: ['sku'],
+    message: 'This SKU is already in use.'
+)]
 class ProductVariant
 {
     #[ORM\Id]
@@ -18,14 +23,14 @@ class ProductVariant
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $sku = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
     private ?float $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'variants')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Product $parent = null;
 
     /**
