@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            color: #333;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .product {
+            margin-bottom: 40px;
+            page-break-inside: avoid;
+        }
+
+        .product-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .product-image {
+            width: 150px;
+            height: 150px;
+            margin-right: 20px;
+            border: 1px solid #ddd;
+            object-fit: cover;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .variants-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .variants-table th,
+        .variants-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .variants-table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        .variants-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .no-variants {
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>{{ title }}</h1>
+    <p>Generated on {{ "now"|date("Y-m-d H:i:s") }}</p>
+</div>
+
+{% if products is empty %}
+    <p>No products found in this catalog.</p>
+{% else %}
+    {# Collect all unique attribute names across all products #}
+    {% set allAttributes = [] %}
+    {% for product in products %}
+        {% for variant in product.variants %}
+            {% for attribute in variant.attributes %}
+                {% for attributeName in attribute.attributeNames %}
+                    {% if attributeName.name not in allAttributes %}
+                        {% set allAttributes = allAttributes|merge([attributeName.name]) %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+
+    {% for product in products %}
+        <div class="product">
+            <div class="product-header">
+                {% if product.imageName %}
+                    <img src="{{ absolute_url(vich_uploader_asset(product, 'imageFile')) }}" alt="{{ product.name }}" class="product-image">
+                {% else %}
+                    <div class="product-image" style="display: flex; align-items: center; justify-content: center; background-color: #f0f0f0; color: #999;">
+                        No Image
+                    </div>
+                {% endif %}
+                <div class="product-name">{{ product.name }}</div>
+            </div>
+
+            {% if product.variants is not empty %}
+                <table class="variants-table">
+                    <thead>
+                    <tr>
+                        <th>SKU</th>
+                        {% for attributeName in allAttributes %}
+                            <th>{{ attributeName }}</th>
+                        {% endfor %}
+                        <th>Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for variant in product.variants %}
+                        <tr>
+                            <td>{{ variant.sku }}</td>
+                            {% for attributeName in allAttributes %}
+                                <td>
+                                    {% set attributeValue = '' %}
+                                    {% for attribute in variant.attributes %}
+                                        {% for attrName in attribute.attributeNames %}
+                                            {% if attrName.name == attributeName %}
+                                                {% set attributeValue = attribute.value %}
+                                                {% if attribute.unit %}
+                                                    {% set attributeValue = attributeValue ~ ' ' ~ attribute.unit %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                    {{ attributeValue|default('-') }}
+                                </td>
+                            {% endfor %}
+                            <td class="price">
+                                {% if variant.price %}
+                                    ${{ variant.price|number_format(2, '.', ',') }}
+                                {% else %}
+                                    Contact for price
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="no-variants">
+                    This product has no variants available.
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endif %}
+</body>
+</html>

@@ -40,4 +40,15 @@ class ProductRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findAll(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.variants', 'v')
+            ->leftJoin('v.attributes', 'attr')
+            ->leftJoin('attr.attributeNames', 'an')
+            ->addSelect('v', 'attr', 'an')
+            ->getQuery()
+            ->getResult();
+    }
 }
