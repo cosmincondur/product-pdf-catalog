@@ -54,5 +54,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Nume atribute', 'fas fa-list', AttributeName::class);
         yield MenuItem::linkToCrud('Valori atribute', 'fas fa-list', AttributeValue::class);
         yield MenuItem::linkToCrud('Categorii', 'fas fa-list', Category::class);
+        yield MenuItem::linkToRoute('Import Products', 'fa fa-upload', 'product_import_form');
     }
 }
