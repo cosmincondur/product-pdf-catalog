@@ -27,7 +27,7 @@ class ProductVariant
     private ?string $sku = null;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?float $price = null;
+    private ?string $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'variants')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
@@ -75,12 +75,12 @@ class ProductVariant
 
     public function getPrice(): ?float
     {
-        return $this->price;
+        return $this->price !== null ? (float)$this->price : null;
     }
 
     public function setPrice(?float $price): static
     {
-        $this->price = $price;
+        $this->price = $price !== null ? (string)$price : null;
 
         return $this;
     }

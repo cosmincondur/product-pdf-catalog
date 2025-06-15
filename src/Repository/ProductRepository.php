@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -44,6 +45,19 @@ class ProductRepository extends ServiceEntityRepository
     public function findAll(): array
     {
         return $this->createQueryBuilder('p')
+            ->leftJoin('p.variants', 'v')
+            ->leftJoin('v.attributes', 'attr')
+            ->leftJoin('attr.attributeNames', 'an')
+            ->addSelect('v', 'attr', 'an')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByCategory(Category $category): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.category = :category')
+            ->setParameter('category', $category)
             ->leftJoin('p.variants', 'v')
             ->leftJoin('v.attributes', 'attr')
             ->leftJoin('attr.attributeNames', 'an')

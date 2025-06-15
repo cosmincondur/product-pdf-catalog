@@ -19,6 +19,8 @@ class CatalogController extends AbstractController
     private ProductRepository $productRepository;
     private CategoryRepository $categoryRepository;
 
+    private const EUR_RATE = 5.03;
+
     public function __construct(
         DompdfFactoryInterface $dompdfFactory,
         DompdfWrapperInterface $dompdfWrapper,
@@ -39,7 +41,8 @@ class CatalogController extends AbstractController
 
         $html = $this->renderView('catalog/pdf.html.twig', [
             'products' => $products,
-            'title' => 'Catalog Produse - ETIS'
+            'title' => 'Catalog Produse - ETIS',
+            'EUR_RATE' => self::EUR_RATE
         ]);
 
         // Using the wrapper for easier PDF generation
@@ -66,7 +69,8 @@ class CatalogController extends AbstractController
         $html = $this->renderView('catalog/pdf.html.twig', [
             'products' => $products,
             'title' => 'Catalog ' . $category->getName(),
-            'category' => $category
+            'category' => $category,
+            'EUR_RATE' => self::EUR_RATE
         ]);
 
         $filename = sprintf('catalog-%s.pdf', $category->getName() ?? $category->getId());
@@ -82,7 +86,8 @@ class CatalogController extends AbstractController
 
         $html = $this->renderView('catalog/pdf.html.twig', [
             'products' => $products,
-            'title' => 'Advanced Product Catalog'
+            'title' => 'Advanced Product Catalog',
+            'EUR_RATE' => self::EUR_RATE
         ]);
 
         // Using the factory for more control over options

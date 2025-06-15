@@ -24,7 +24,8 @@ class ProductVariantCrudController extends AbstractCrudController
         return [
             TextField::new('name'),
             TextField::new('sku'),
-            MoneyField::new('price')->setCurrency('EUR'),
+            MoneyField::new('price')
+                ->setCurrency('RON'),
             AssociationField::new('parent')->autocomplete(),
             AssociationField::new('attributes')->autocomplete(),
         ];

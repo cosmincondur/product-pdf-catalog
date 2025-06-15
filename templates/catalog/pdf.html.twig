@@ -145,9 +145,9 @@
                             {% endfor %}
                             <td class="price">
                                 {% if variant.price %}
-                                    ${{ variant.price|number_format(2, '.', ',') }}
+                                    € {{ (variant.price / EUR_RATE / 100)|number_format(2, '.', ',') }}
                                 {% else %}
-                                    Contact for price
+                                    Cere
                                 {% endif %}
                             </td>
                         </tr>
