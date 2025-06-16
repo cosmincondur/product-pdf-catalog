@@ -1,0 +1,54 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+# Dotenv
+.env
+.env.local
+.env.*.local
+.env.test
+.env.test.local
+
+# Cache & logs
+*.log
+*.cache
+
+# Composer
+composer.lock
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+/phpunit.xml.dist
+/.phpunit.result.cache
+/tests/.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> symfony/asset-mapper ###
+/public/assets/
+/assets/vendor/
+
+# Build tools (Encore/Webpack/Vite/etc.)
+/yarn.lock
+/package-lock.json
+/pnpm-lock.yaml
+/.parcel-cache/
+/dist/
+/build/
+###< symfony/asset-mapper ###
+
+# Custom config overrides
+/config/secrets/dev/
+/config/secrets/test/
+/config/secrets/prod/
+
+# Docker-specific (if using)
+/.docker
+/docker-compose.override.yml
