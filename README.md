@@ -21,3 +21,5 @@ Display your products in a PDF catalog.
 composer install
 cp .env.example .env
 php bin/console doctrine:database:create
+symfony server:start
+```
