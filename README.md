@@ -1,4 +1,4 @@
-# product-pdf-catalog
+# PRODUCT PDF CATALOG
 
 Display your products in a PDF catalog.
 
