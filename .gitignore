@@ -15,6 +15,9 @@
 .env.*.local
 .env.test
 .env.test.local
+.env.dev
+.env.production
+*.env
 
 # Cache & logs
 *.log
@@ -52,3 +55,6 @@ composer.lock
 # Docker-specific (if using)
 /.docker
 /docker-compose.override.yml
+
+# macOS system files
+.DS_Store
